@@ -1,0 +1,186 @@
+﻿ID,Diagnosis,Diagnoses:,IEP,Intervention,FeelingReading,TeacherSugg,Int_area
+READ_1002,No,,No,No,Moderate enjoyment,No,
+READ_1003,No,But typically writes letters and numbers backwards,No,Yes,Moderate enjoyment,No,Social skills and emotional/behaviorial skills
+READ_1004,No,,No,No,Strong enjoyment,No,
+READ_1005,No,,No,No,Moderate enjoyment,No,
+READ_1006,No,,No,No,Strong enjoyment,No,
+READ_1007,No,,No,No,Strong enjoyment,No,
+READ_1008,No,,No,No,Moderate enjoyment,No,
+READ_1009,No,,No,Yes,Neutral,No,Reading
+READ_1100,No,,No,Yes,Moderate enjoyment,No,Reading and Math
+READ_1104,No,,No,Yes,Moderate enjoyment,Yes,Reading and Math
+READ_2000,No,,No,No,Moderate enjoyment,No,
+READ_2009,No,,No,No,Moderate enjoyment,No,
+READ_2047,No,,No,No,Strong enjoyment,No,
+READ_2087,No,,No,No,Strong enjoyment,No,
+READ_2089,No,,No,No,Strong enjoyment,No,
+READ_2100,Yes,Apraxia and Anxiety,No,Yes,Neutral,Yes,Occupational Therapy
+READ_2154,No,,No,No,Moderate enjoyment,No,
+READ_2155,No,,No,No,Strong enjoyment,No,
+READ_2159,No,,No,No,Moderate enjoyment,No,
+READ_2192,No,,No,No,Neutral,No,
+READ_2239,No,,No,No,Moderate enjoyment,No,
+READ_2250,No,,No,No,Strong enjoyment,No,
+READ_2257,No,,No,No,Strong enjoyment,No,
+READ_2260,No,,No,Yes,Strong enjoyment,Yes,Speech articulation/production 
+READ_2315,No,,No,Yes,Neutral,No,Reading
+READ_2321,No,,No,No,Strong enjoyment,No,
+READ_2330,Yes,Reading Tutor Past 2 months suspect possible dyslexia,No,Yes,Moderate enjoyment,Yes,Speech articulation/production and reading
+READ_2332,No,,No,No,Strong enjoyment,No,
+READ_2333,No,,No,No,Strong enjoyment,No,
+READ_2335,No,,No,No,Strong enjoyment,,
+READ_2336,No,,No,No,Neutral,No,
+READ_2339,No,,No,No,Neutral,No,
+READ_2343,No,,No,No,Strong enjoyment,No,
+READ_2351,No,,No,No,Neutral,No,
+READ_2387,No,,No,No,Strong enjoyment,No,
+READ_2401,No,,No,No,Strong enjoyment,No,
+READ_2409,No,,No,Yes,Moderate enjoyment,No,Reading
+READ_2428,No,,No,No,Strong enjoyment,No,
+READ_2431,No,,Yes,No,Moderate enjoyment,No,
+READ_2532,No,,No,No,Neutral,No,
+READ_2541,No,,No,Yes,Strong enjoyment,No,Reading
+READ_2568,No,,No,Yes,Moderate enjoyment,Yes,
+READ_2606,Yes,Neuropsych; he is having testing done now,"Yes, improving reading and socialization. He prefers company of adults",Yes,Moderate enjoyment,Yes,"Language Comprehension, reading, social skills, occupational therapy"
+READ_1101,No,,,,,,
+READ_1103,No,,No,No,Strong enjoyment,No,
+READ_1106,No,,No,Yes,Moderate enjoyment,No,Social skills
+READ_3004,NA,NA,No,No,Strong enjoyment,No,
+READ_3009,No,,NA,NA,NA,NA,NA
+READ_3010,No,,No,No,Strong enjoyment,No,
+READ_3011,No,,No,No,Strong enjoyment,No,
+READ_3030,No,,No,No,Strong enjoyment,No,
+READ_3069,No,,No,No,Strong enjoyment,No,
+READ_3072,Yes,ADHD,No,Yes,Moderate enjoyment,,Emotional/behavioral skills
+READ_3075,No,,No,No,Strong enjoyment,No,
+READ_3077,No,,No,No,Strong enjoyment,No,
+READ_3089,No,,No,No,Strong enjoyment,No,
+READ_3098,No,,No,Yes,Moderate enjoyment,Yes,Reading
+READ_1201,No,,No,No,Strong enjoyment,No,
+READ_1202,NA,,No,No,Moderate enjoyment,No,
+READ_1203,No,,No,No,Neutral,No,
+READ_3013,No,,No,No,Moderate enjoyment,No,
+READ_3057,No,,No,No,Moderate enjoyment,No,
+READ_3104,Yes,ADD (inattentive type 1; no meds at this time),No,No,Moderate/Strong enjoyment,,
+READ_3105,No,Not diagnosed but beginning the process of being tested for ADHD,No,Yes,Moderate enjoyment,Yes,Reading
+READ_3111,Yes,ADHD and Speech Delay,No,Yes,Moderate enjoyment,Yes,Reading
+READ_4013,No,,"Yes, sees a speech therapist 1/2 hrs a week at school",Yes,Strong dislike,Yes,Speech articulation/production and reading
+READ_4014,No,,No,No,Moderate enjoyment,NA,
+READ_4037,No,,No,No,Strong enjoyment,No,
+READ_4043,No,,No,No,Moderate enjoyment,No,
+READ_4044,No,,No,No,Moderate enjoyment,No,
+READ_4053,No,,No,No,Moderate enjoyment,No,
+READ_4055,No,,No,No,Moderate enjoyment,No,
+READ_4056,No,,No,No,Strong enjoyment,No,
+READ_4057,No,,No,No,Moderate enjoyment,No,
+READ_4058,No,,No,No,Moderate enjoyment,No,
+READ_4063,No,,"Yes, for O.T. - fine motor skills and writing/letter formation skills",Yes,Moderate enjoyment,Yes,Occupational Therapy
+READ_4066,No,,No,No,Strong enjoyment,No,
+READ_4069,No,,No,No,Strong enjoyment,No,
+READ_4091,No,,No,No,Strong enjoyment,NA,
+READ_4098,No,,No,No,Neutral,No,
+READ_4099,No,,No,No,Moderate enjoyment,No,
+READ_4105,No,,No,No,Moderate enjoyment,No,
+READ_4110,No,,No,Yes,Moderate enjoyment,No,Speech articulation/production (Lisp)
+READ_4125,No,,No,No,Moderate dislike,,
+READ_4127,No,,No,Yes,Neutral,,Reading
+READ_4147,No,,No,No,Moderate enjoyment,No,
+READ_4150,Yes,Was recommend to a reading specialist because of reading difficulties; has no diagnosis but has an impulsive tendency that makes reading more difficult,No,No,Strong enjoyment,No,
+READ_4152,No,,No,Yes,Moderate enjoyment,Yes,Reading
+READ_4156,No,,No,No,Neutral,No,
+READ_4166,Yes,"Had speech therapy for 5-6 months, then after, weekly meetings and then monthly last year",No,No,Moderate enjoyment,No,
+READ_4173,NA,NA,No,Yes,Moderate enjoyment,No,"Speech articulation/production, Language comprehension, and reading"
+READ_4190,No,,NA,NA,NA,NA,NA
+READ_4191,NA,NA,No,No,Neutral/Moderate enjoyment,No,
+READ_4197,No,,NA,NA,NA,NA,NA
+READ_4501,Yes,ADHD,No,No,Neutral,No,
+READ_4504,No,,No,Yes,Moderate enjoyment,No,"Social skills, emotional/behavioral skills, occupational therapy"
+READ_4521,No,,No,Yes,"Moderate dislike; loves being read to, but not read",Yes,
+READ_4528,No,,No,No,Moderate enjoyment (reading himself); strong enjoyment (being read to),No,
+READ_4543,Yes,is being tested at the Hosmer School,No,No,Moderate enjoyment,No,
+READ_4546,No,,No,Yes,Moderate enjoyment,Yes,Reading
+READ_4551,No,,No,No,Strong enjoyment,No,
+READ_4552,NA,NA,No,Yes,Moderate dislike; he LOVES being read to,No,Reading
+READ_4558,No,,NA,NA,NA,NA,NA
+READ_4561,No,,No,No,Strong enjoyment,No,
+READ_4565,No,,No,Yes,Strong enjoyment,No,Reading
+READ_4570,No,,No,No,Strong enjoyment,,
+READ_4575,No,,No,No,Neutral,,
+READ_4581,No,,No,No,Neutral,No,
+READ_4585,NA,NA,No,Yes,Strong enjoyment,No,Occupational Therapy
+READ_4597,No,,NA,NA,NA,NA,NA
+READ_4613,Yes,"No formal diagnosis, current testing showed split of verbal/non-verbal; could suggest non-verbal LD",No,No,Moderate enjoyment,,
+READ_4616,Yes,ADHD,No,Yes,Strong enjoyment,No,Emotional/behavioral skills
+READ_4627,No,,No,No,Moderate enjoyment,No,
+READ_4630,No,,No,Yes,Strong enjoyment,No,Emotional/behavioral skills and Occupational therapy
+READ_4660,No,,No,No,Moderate enjoyment,No,
+READ_4676,NA,NA,No,No,Strong enjoyment,No,
+READ_4687,No,,NA,NA,NA,NA,NA
+READ_1300,No,,No,Yes,Moderate dislike,No,Reading
+READ_1301,No,,No,No,2,No,
+READ_4738,No,,No,No,2,No,
+READ_4743,No,,No,No,0,,
+READ_4745,No,,No,No,2,No,
+READ_4767,No,,No,No,2,No,
+READ_4828,No,,No,No,2,No,
+READ_4835,No,,No,No,2,No,
+READ_5013,No,,No,No,2,No,
+READ_5023,NA,,No,Yes,1,Yes,Reading
+READ_5028,NA,,,,,,
+READ_5035,No,,,,,,
+READ_5039,NA,,No,No,-1,No,
+READ_5062,No,,,,,,
+READ_5074,No,,No,Yes,-1,No,Emotional/Behavioral Skills
+READ_5079,NA,,No,No,2,,
+READ_5082,NA,,,,,,
+READ_5110,NA,,,,,,
+READ_5115,No,,,,,,
+READ_5130,No,,No,No,1,No,
+READ_5133,No,,No,No,2,No,
+READ_5135,NA,,No,No,0,No,
+READ_5136,No,,,,,,
+READ_5140,No,,No,No,2,No,
+READ_5141,Yes,Speech,No,No,1,No,
+READ_5145,No,,Yes,Yes,1,Yes,Speech articulation/production
+READ_5148,NA,,No,No,1,No,
+READ_5153,No,,,,,,
+READ_5155,No,,No,No,0,No,
+READ_5157,NA,,No,No,1,No,
+READ_5160,No,,,,,,
+READ_5166,No,,No,Yes,-2,Yes,Reading
+READ_5168,NA,,No,No,0,No,
+READ_5170,NA,,,,,,
+READ_5173,No,,,,,,
+READ_5174,Yes,"Not yet, just completed testing and waiting for results",No,No,2,No,
+READ_5176,NA,,Yes,Yes,0,Yes,Reading; Occupational Therapy; Neurofeedback
+READ_5185,Yes,"ADHD, ODD",,,,,
+READ_5188,No,,No,No,0,No,
+READ_5197,Yes,Speech,No,No,2,No,
+READ_5202,NA,,No,No,0,Yes,
+READ_5206,No,,,,,,
+READ_5220,NA,,No,Yes,2,No,Occupational therapy-fine motor
+READ_5223,No,,,,,,
+READ_5238,NA,,No,No,1,No,
+READ_5243,No,,,,,,
+READ_5256,No,,No,No,2,No,
+READ_5261,No,,No,No,2,No,
+READ_5265,No,,No,No,1,No,
+READ_5282,NA,,No,No,2,No,
+READ_5285,No,,,,,,
+READ_5290,Yes,Expressive Language Delay ,No,No,0,,
+READ_5312,No,,Yes,Yes,-2,Yes,Speech articulation/production; Reading; Emotional/behavioral skills
+READ_5313,NA,,No,No,-1,No,
+READ_5338,No,,,,,,
+READ_5340,NA,,No,No,1,No,
+READ_5345,No,,,,,,
+READ_5349,No,,No,No,2,No,
+READ_5401,NA,,No,No,1,No,
+READ_5402,No,,,,,,
+READ_5406,No,,No,No,0,No,
+READ_5412,No,,No,No,1,No,
+READ_5413,No,,No,No,1,No,
+READ_5418,NA,,No,No,-1,Yes,
+READ_5419,NA,,,,,,
+READ_5423,Yes,Slightly late speech 18 months for 1st word,,,,,
+READ_5428,No,,No,No,1,No,
+,,,No,No,1,No,

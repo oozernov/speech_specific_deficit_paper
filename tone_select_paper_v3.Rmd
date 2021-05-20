@@ -25,7 +25,7 @@ source('making_path_diagrams.R') #import the path-making-function
 
 #dir<-dirname(rstudioapi::getActiveDocumentContext()$path)
 #setwd("dir")
-setwd("~/Dropbox (MIT)/GitHub/Tone_SelectAdapt_Paper")
+setwd("~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper")
 #d=read.csv("data/ABCD_data072320.csv")
 d=read.csv("data/abcd_beh_122020.csv")
 
