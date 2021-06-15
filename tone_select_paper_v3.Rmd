@@ -26,7 +26,6 @@ source('making_path_diagrams.R') #import the path-making-function
 #dir<-dirname(rstudioapi::getActiveDocumentContext()$path)
 #setwd("dir")
 setwd("~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper")
-#d=read.csv("data/ABCD_data072320.csv")
 d=read.csv("data/abcd_beh_122020.csv")
 
 groups=read.csv("data/abcd_group.csv")
@@ -51,8 +50,7 @@ d=merge(d,groups,
 d=merge(d,tone_sa,'PartID',all=TRUE)
 #d=merge(d,accuracy,'PartID',all=TRUE)
 
-#d=merge(d,snr,'PartID',all=FALSE)
-d_m=merge(d,music,'PartID',all=TRUE)
+d=merge(d,snr,'PartID',all=FALSE)
 
 #names(d)[names(d)=="m_jnd"] <- "tone_thresh"
 names(d)[names(d)=="slope"] <- "m_slope"
@@ -60,6 +58,7 @@ names(d)[names(d)=="d"] <- "select_sloped"
 names(d)[names(d)=="adapt"] <- "adaptor_diff"
 #names(d)[names(d)=="m_fd_hz"] <- "ntd"
 
+d_m=merge(d,music,'PartID',all=TRUE)
 
 ```
 
@@ -97,7 +96,7 @@ tbl
 chisq.test(tbl)
 anova(lm(tone_thresh~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
 anova(lm(m_slope~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
-anova(lm(diff_8~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
+#anova(lm(diff_8~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
 anova(lm(ntd~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
 summary(lm(ctopp_blending_ss~select_sloped,data=d))
 
@@ -114,13 +113,19 @@ t.test(d_m$quicksin_snr_loss_2~d_m$Subgroup.x)
 
 d_a3<-d%>%filter(age=='Adult')%>% dplyr::select(tone_thresh,ntd,m_slope,adaptor_diff,PA)
 
-resa <- cor(na.omit(d_a3,method = "pearson"))
+resa <- cor(na.omit(d_a3,method = "fisher"))
 #d_a3<-na.omit(d_a3)%>%filter(adaptor_diff!='Inf'& adaptor_diff>-4.7)
 length(d_a3$ntd)
 #create a table with r and p
 source("corstars_function.R")
 corstars(d_a3,method="pearson")#you need to run the function first
-plot(d_a3$)
+p.adjust(0.01, method = "holm", n = length(resa))
+
+#test for strengh of correlation
+paired.r(-.40,.06,NULL,50) #independent correlations same sample size
+
+
+
 ```
 
 ###Adult: Correlations by group-TYP
@@ -421,6 +426,8 @@ Missing_patterns <-md.pattern(d_c)
 beh_c<-read.csv("data/child_data.csv")
 d_c$PartID[!(d_c$PartID %in% beh_c$PartID)] #READ_6103"
 beh_c$PartID[!(beh_c$PartID %in% d_c$PartID)] 
+beh2<-read.csv("data/all_beh.csv")
+names(beh2)[names(beh2)=="ID"] <- "PartID" 
 
 set.seed(182)
 init = mice(beh_c, maxit=0)
@@ -436,8 +443,8 @@ Missing_patterns <-md.pattern(beh_c2)
 Missing_patterns
 
 d_c2<-merge(d_c,beh_c2,"PartID")
-Missing_patterns <-md.pattern(d_c2)
-Missing_patterns
+d_c2<-merge(x = d_c2, y = beh2[ , c("PartID", "NonWord")], by = "PartID", all.x=TRUE)
+
 
 
 
@@ -770,3 +777,58 @@ med_data3 <-
 med_diagram(med_data3)
 ```
 
+#### Demo ####
+
+## Adult 
+```{r}
+# demo<-read.csv("abcd_demo.csv")
+# d2 <- read.csv('data/abcd_beh_data_052421.csv',stringsAsFactors = FALSE,skipNul = TRUE,
+#               blank.lines.skip = TRUE)
+# names(d2)[names(d2)=="background_age"] <- "Age"
+# names(d2)[names(d2)=="background_sex"] <- "Sex"
+# names(d2)[names(d2)=="wrmt_wa_ss_2"] <- "WA"
+# names(d2)[names(d2)=="ran_letters_ss_2"] <- "RAN_Letters"
+# names(d2)[names(d2)=="wrmt_id_ss_2"] <- "WID"
+# names(d2)[names(d2)=="towre_sw_ss_2"] <- "SWE"
+# names(d2)[names(d2)=="towre_pde_ss_2"] <- "PDE"
+# names(d2)[names(d2)=="ppvt_vocab_ss_2"] <- "Vocabulary"
+# names(d2)[names(d2)=="gort_ori_ss_2"] <- "ORI"
+# names(d2)[names(d2)=="ctopp_blending_ss_2"] <- "Blending"
+# names(d2)[names(d2)=="ctopp_elision_ss_2"] <- "Elision"
+# names(d2)[names(d2)=="ctopp_nonword_ss_2"] <- "Nonword"
+# names(d2)[names(d2)=="ran_2set_ss_2"] <- "RAN_2Set"
+# names(d2)[names(d2)=="ran_objects_ss_2"] <- "RAN_Objects"
+# names(d2)[names(d2)=="wais_dsb_ss_2"] <- "DigitsBackward"
+# names(d2)[names(d2)=="wais_dsf_ss_2"] <- "DigitsForward"
+# names(d2)[names(d2)=="kbit_ss_2"] <- "IQ"
+# names(d2)[names(d2)=="abcd_id"] <- "PartID"
+# 
+# x<-d2%>%ungroup%>%dplyr::select(PartID,Age,Sex,IQ,SWE,WID,WA,SWE,PDE,
+#                                        Vocabulary,ORI,Elision,ORI,Nonword,RAN_2Set,DigitsForward,DigitsBackward)
+# x<-na.omit(x)
+# 
+# d_demo<-merge(demo,x,"PartID")
+# d_demo<-merge(d_demo,groups,"PartID")
+# 
+# table(d_demo$Subgroup)
+# table(d_demo$read_delay,d_demo$Subgroup)
+# table(d_demo$lang_delay,d_demo$Subgroup)
+# table(d_demo$ADHD,d_demo$Subgroup)
+# demo_table<-d_demo%>%select(Subgroup,read_delay,lang_delay,dyslexia,ADHD,self_ed,starts_with('race'),household_income,Sex)
+# 
+# demo_table$self_ed <- factor(demo_table$self_ed,
+#                                 levels = c(1,2,3,4,5,6,7),
+#                                 labels = c("Less7Grd", "JuniorHigh", "HighSchool","PartialCollege","College","Masters","Doctorate"))
+# demo_table$household_income <- factor(demo_table$household_income,
+#                                 levels = c(1,2,3,4),
+#                                 labels = c("<30k", "30-60k", "60-100k",">100k"))
+# 
+# cat.names = demo_table %>% select_if(is.integer) %>% colnames()
+# demo_table2=demo_table
+# demo_table2[,cat.names] = lapply(demo_table2[,cat.names], as.factor)
+# str(demo_table2[,cat.names])
+# 
+# at<-summary(tableby(Subgroup ~ ., data = demo_table2,
+#                      control=tableby.control(numeric.stats="meansd", total=FALSE)),title = "Adult Descriptives",text=TRUE,digits=2, digits.p=3)
+# at
+```

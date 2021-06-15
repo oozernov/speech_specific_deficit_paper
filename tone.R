@@ -8,8 +8,7 @@
 
 #### Setup ####
 #setwd("~/Dropbox (MIT)/Com_Dys_2016_data/final_for_sharing/final_code_JT")
-setwd("~/Dropbox (MIT)/GitHub/Tone_SelectAdapt_Paper")
-
+setwd("~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper")
 Packages <- c("dplyr", "readr", "magrittr", "tidyr", "ggplot2", "lme4", "lmerTest",
               "emmeans", "sjstats","dabestr","gridExtra")
 lapply(Packages, library, character.only = TRUE)
@@ -20,23 +19,23 @@ lapply(Packages, library, character.only = TRUE)
 adult <- read_csv("data/tonethres_data_a_010719.csv")
 groups_a <- read_csv("data/adult_groups_012418.csv") %>%
     mutate(group = as.factor(group)) %>%
-    rename(PartID = Subject)    
+    dplyr::rename(PartID = Subject)    
 
 adult %<>%
     rename(PartID = Subject) %>%
     inner_join(groups_a, by = c("PartID")) %>% # add DD columns to the data
-    select(-X1)
+    dplyr::select(-X1)
 
 # child data
 child <- read_csv("data/child_tonethres_data_122718.csv")
 groups_c <- read.csv("data/groups_041817.csv") %>%
     mutate(group = ifelse(Typical == 1, "Typ", "Dys")) %>%
-    select(-DD, -Typical)
+    dplyr::select(-DD, -Typical)
 
 child %<>%
     inner_join(groups_c, by = "PartID") %>% # add DD columns to the data
     mutate(group = as.factor(group)) %>%
-    select(-Subject)
+    dplyr::select(-Subject)
 
 # combine the datasets
 d <- bind_rows("Adult" = adult,
@@ -51,7 +50,7 @@ groups <- bind_rows("Adult" = groups_a,
                     .id = "age")
 
 # exclude outlier participant
-#d = d %>% filter(PartID != 'READ_4521')
+#d = d %>% filter(PartID != '5174')
 
 # convert hz to cent function
 hz_to_cents <- function(a, b) {
@@ -89,14 +88,16 @@ ggplot(d_correct, aes(x = cond, y = m_correct*100, fill = cond)) +
     labs(title = "Tone Threshold Accuracy", x = "Condition", y = "% Correct") +
     theme(plot.title = element_text(hjust = 0.5)) +
     facet_wrap(~ com_cond, ncol = 2)
-write.csv(d_correct,'tone_mean_correct_group111620.csv')
+#write.csv(d_correct,'tone_mean_correct_group111620.csv')
+
 #### Analysis ####
 
 d_2 <- d %>%
     group_by(PartID, cond, group, age) %>%
     dplyr::summarize(m_correct = mean(correct, na.rm = TRUE))
-LME_model1 <- lmer(m_correct ~ cond*group*age + (1|PartID), data = d_2, REML = FALSE)
-anova(LME_model1) #main effect for accuracy by cond, group, age
+acc_model <- lmer(m_correct ~ cond*group*age + (1|PartID), data = d_2, REML = FALSE)
+anova(acc_model) #main effect for accuracy by cond, group, age
+effectsize::eta_squared(acc_model)
 
 #### JND ####
 # Calculate
@@ -109,9 +110,15 @@ d_reversals <- d %>%
     filter(reversals >= rev_num) 
 
     #mutate(cents = hz_to_cents(lowFreq, highFreq))
-d_idthres <- d_reversals %>%
+ d_idthres <- d_reversals %>%
+     group_by(cond, com_cond, group) %>%
+     dplyr::summarize(m_fd = mean(freqDiff))
+
+#calculate percent difference per reviewer
+d_idthres<- d_reversals %>%
     group_by(cond, com_cond, group) %>%
-    dplyr::summarize(m_fd = mean(freqDiff))
+    dplyr::summarize(m_fd = mean(freqDiff/lowFreq*100))
+
 
 d_jnd_hz <- d_reversals %>%
     mutate(cond = ifelse(cond == "No-standard", "NS", "S"))%>%
@@ -121,11 +128,31 @@ d_jnd_hz <- d_reversals %>%
     mutate(upper = m_fd + 1.96 * se,
            lower = m_fd - 1.96 * se)
 
+
+# In percent
+d_jnd_hz <- d_reversals %>%
+    mutate(cond = ifelse(cond == "No-standard", "NS", "S"))%>%
+    group_by(cond, com_cond, group) %>%
+    dplyr::summarize(m_fd = mean(freqDiff/lowFreq*100),
+                     se = plotrix::std.error(freqDiff/lowFreq*100)) %>%
+    mutate(upper = m_fd + 1.96 * se,
+           lower = m_fd - 1.96 * se)
+
+
+
+
 ##Individual performance
 d_ind_jnd_hz <- d_reversals %>%
-    mutate(cond = ifelse(cond == "No-standard", "NS", "S"))%>%
+    mutate(cond = ifelse(cond == "No-standard", "No-Standard", "Standard"))%>%
     group_by(PartID, cond, group, age) %>%
     dplyr::summarize(jnd = mean(freqDiff, na.rm = T))
+
+#in percent
+d_ind_jnd_hz <- d_reversals %>%
+    mutate(cond = ifelse(cond == "No-standard", "No-Standard", "Standard"))%>%
+    group_by(PartID, cond, group, age) %>%
+    dplyr::summarize(jnd = mean(freqDiff/lowFreq*100, na.rm = T))
+
 
 #plot individual slopes by age
 ggplot(data = d_ind_jnd_hz, aes(x = cond, y = jnd, group = PartID, color = group)) +
@@ -155,6 +182,7 @@ d_ind_jnd_hz$group_cond = paste(d_ind_jnd_hz$group, "-", d_ind_jnd_hz$cond)
 
 #https://acclab.github.io/DABEST-python-docs/robust-beautiful.html
 
+
 multi.two.group.unpaired <- 
     d_ind_jnd_hz %>%
     dabest(com_cond,jnd,
@@ -162,34 +190,38 @@ multi.two.group.unpaired <-
                       c("Typ Adult", "Dys Adult")),
            paired = FALSE
     )
-plot(multi.two.group.unpaired,
-     rawplot.ylabel = "JND",color.column = group_cond,
+
+multi.two.group.unpaired2 <- dabestr::mean_diff(multi.two.group.unpaired)
+
+plot(multi.two.group.unpaired2,
+     rawplot.ylabel = "JND (Percent Hz)",color.column = group_cond,
      palette = c("blue", "light blue","red","pink"),
      effsize.ylabel = "Unpaired mean difference")
 
 d_ind_jnd_hz$age<-as.factor(d_ind_jnd_hz$age)
-d_ind_jnd_hz$condition<-as.factor(d_ind_jnd_hz$cond)
+d_ind_jnd_hz$cond<-as.factor(d_ind_jnd_hz$cond)
 #Analyze effects
 jnd_model <- lmer(jnd ~ cond*group*age + (1|PartID), data = d_ind_jnd_hz,REML = TRUE)
-rand(jnd_model) #test the random effect in the model
+#rand(jnd_model) #test the random effect in the model
 anova(jnd_model)
-eta_sq(jnd_model)
-anova(lm(jnd ~ cond*group*age, data = d_ind_jnd_hz))
+effectsize::eta_squared(jnd_model)
+#anova(lm(jnd ~ cond*group*age, data = d_ind_jnd_hz))
 
 # ###Post hoc comparisons
 #lsmeans(jnd_model, list(pairwise ~ group|cond), adjust = "tukey")
 #lsmeans(jnd_model, list(pairwise ~ group|age), adjust = "tukey")
 
+
 #### NTD ####
 # Calculations
 
 d_s_td = d_ind_jnd_hz %>% 
-    filter(cond == 'S') %>% 
+    dplyr::filter(cond == 'Standard') %>% 
     group_by(PartID) %>% 
     dplyr::summarise(m_fd_hz = mean(jnd))
 
 d_ns_td = d_ind_jnd_hz %>% 
-    filter(cond == 'NS')%>% 
+    filter(cond == 'No-Standard')%>% 
     group_by(PartID) %>% 
     dplyr::summarise(m_fd_hz = mean(jnd))
 
@@ -215,15 +247,18 @@ multi.two.group.unpaired <-
                       c("Typ Adult", "Dys Adult")),
            paired = FALSE
     )
-plot(multi.two.group.unpaired,
+
+multi.two.group.unpaired2 <- dabestr::mean_diff(multi.two.group.unpaired)
+
+plot(multi.two.group.unpaired2,
      rawplot.ylim = c(-1, 0.7),color.column = group,
      palette = c("blue", "red"),
      rawplot.ylabel = "NTD",
      effsize.ylabel = "Unpaired mean difference")
 
-jpeg("jnd_ntd_plots111620.jpeg") # Open a new pdf file
-grid.arrange(p1, p2, nrow=2) # Write the grid.arrange in the file
-dev.off() # Close the file
+#jpeg("jnd_ntd_plots052721.jpeg") # Open a new pdf file
+#grid.arrange(p1, p2, ncol=2) # Write the grid.arrange in the file
+#dev.off() # Close the file
 
 #### Analysis ####
 d_ntd$age<-as.factor(d_ntd$age)
@@ -252,7 +287,7 @@ ggplot(d_fd_trial_hz, aes(colour = cond, y = m_fd, x = trialNum)) +
           legend.title = element_blank())
 
 new_fd_hz <- d_fd_trial_hz %>%
-    select(trialNum, cond, com_cond, m_fd) %>%
+    dplyr::select(trialNum, cond, com_cond, m_fd) %>%
     mutate(cond = ifelse(cond == "No-standard", "ns", "s")) %>%
     spread(cond, m_fd) %>%
     mutate(ns_diff_s = ns - s)

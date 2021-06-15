@@ -8,7 +8,7 @@
 #### Setup ####
 #
 #setwd("~/Dropbox (MIT)/Com_Dys_2016_data/final_for_sharing/final_code_JT")
-setwd("~/Dropbox (MIT)/GitHub/Tone_SelectAdapt_Paper")
+setwd("~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper")
 Packages <- c("dplyr", "readr", "magrittr", "tidyr", "ggplot2", 
               "lme4", "lmerTest","emmeans", "sjstats", "plotrix","dabestr",
               "lmPerm","gridExtra", "grid")
@@ -38,14 +38,16 @@ d <- bind_rows("Adult" = d_a,  # combine adult and child datasets
                "Child" = d_c,
                .id = "age") %>%
     # exclude participants who had <0 for end d prime (2 child dys,1 adultdys) )
-    filter(!PartID %in% c('READER_002', 'READ_6103','ABCD_1776')) %>%
+    filter(!PartID %in% c('READER_002', 'READ_6103','ABCD_1776'))%>%
+    
+    
 
     mutate_at(vars(group, age), as.factor) %>% # convert group and age to factors
 
     # get step column from soundfile column
     separate(soundfile, into = c("x", "step", "y"), sep = "_", remove = FALSE) %>%
     separate(step, into = c("x", "step"), sep = "d", remove = TRUE) %>%
-    select(-x, -y) %>% # only keep step column from these split columns
+    dplyr::select(-x, -y) %>% # only keep step column from these split columns
     mutate(step = as.numeric(step), # convert step to numeric
            # add column for whether response was /b/ (ignores NAs)
            b = ifelse(is.na(response), NA, ifelse(response == 'b', 1, 0)))
@@ -53,7 +55,7 @@ d <- bind_rows("Adult" = d_a,  # combine adult and child datasets
 groups <- bind_rows("Adult" = groups_a,
                     "Child" = groups_c,
                     .id = "age") %>%
-    select(PartID, group, age) %>%
+    dplyr::select(PartID, group, age) %>%
     mutate_at(vars(group, age), as.factor) # convert group and age to factors
 
 #### Display individual plots ####
@@ -268,7 +270,7 @@ for (i in 1:nrow(selec_models)) {
                group == temp_params$group,
                age == temp_params$age) %>%
         group_by(step) %>%
-        summarize(mean_b = mean(b, na.rm = TRUE))
+        dplyr::summarize(mean_b = mean(b, na.rm = TRUE))
     temp_model <- glm(mean_b ~ step, family = binomial(link = "logit"), data = temp_pos)
     new_step <- seq(min(temp_pos$step), max(temp_pos$step), len = 100)
     temp_data <- data.frame(step = new_step,
@@ -295,8 +297,8 @@ for (i in 1:nrow(selec_models)) {
 raw_df <- bind_rows(raw_df_list)
 predict_df <- bind_rows(predict_df_list)
 
-predict_df$group_age=factor(predict_df$group_age,levels=c("Typ Child","Dys Child","Typ Adult","Dys Adult"))  
-raw_df$group_age=factor(raw_df$group_age,levels=c("Typ Child","Dys Child","Typ Adult","Dys Adult"))  
+predict_df$group_age=factor(predict_df$group_age,levels=c("Typ Child","Typ Adult","Dys Child","Dys Adult"))  
+raw_df$group_age=factor(raw_df$group_age,levels=c("Typ Child","Typ Adult","Dys Child","Dys Adult"))  
 
 group_effects_plot2 <- ggplot() +
     geom_line(data = predict_df,
@@ -378,7 +380,7 @@ adaptor_diff_total_2 <- adaptor_diff %>%
            lower.ci.diff = mean.diff - qt(1 - (0.05 / 2), n.diff - 1) * se.diff,
            upper.ci.diff = mean.diff + qt(1 - (0.05 / 2), n.diff - 1) * se.diff) %>%
     mutate_at(vars(step, group), as.factor)
-
+adaptor_diff_total_2$age<-factor(adaptor_diff_total_2$age,levels=(c("Child","Adult")))
 ggplot(data = adaptor_diff_total_2,
        aes(x = step, y = mean.diff, ymin = lower.ci.diff, ymax = upper.ci.diff,
            group = group, fill = group)) +
