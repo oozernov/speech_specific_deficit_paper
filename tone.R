@@ -110,9 +110,9 @@ d_reversals <- d %>%
     filter(reversals >= rev_num) 
 
     #mutate(cents = hz_to_cents(lowFreq, highFreq))
- d_idthres <- d_reversals %>%
-     group_by(cond, com_cond, group) %>%
-     dplyr::summarize(m_fd = mean(freqDiff))
+ # d_idthres <- d_reversals %>%
+ #     group_by(cond, com_cond, group) %>%
+ #     dplyr::summarize(m_fd = mean(freqDiff))
 
 #calculate percent difference per reviewer
 d_idthres<- d_reversals %>%
@@ -120,14 +120,14 @@ d_idthres<- d_reversals %>%
     dplyr::summarize(m_fd = mean(freqDiff/lowFreq*100))
 
 
-d_jnd_hz <- d_reversals %>%
-    mutate(cond = ifelse(cond == "No-standard", "NS", "S"))%>%
-    group_by(cond, com_cond, group) %>%
-    dplyr::summarize(m_fd = mean(freqDiff),
-              se = plotrix::std.error(freqDiff)) %>%
-    mutate(upper = m_fd + 1.96 * se,
-           lower = m_fd - 1.96 * se)
-
+# d_jnd_hz <- d_reversals %>%
+#     mutate(cond = ifelse(cond == "No-standard", "NS", "S"))%>%
+#     group_by(cond, com_cond, group) %>%
+#     dplyr::summarize(m_fd = mean(freqDiff),
+#               se = plotrix::std.error(freqDiff)) %>%
+#     mutate(upper = m_fd + 1.96 * se,
+#            lower = m_fd - 1.96 * se)
+# 
 
 # In percent
 d_jnd_hz <- d_reversals %>%
@@ -139,13 +139,11 @@ d_jnd_hz <- d_reversals %>%
            lower = m_fd - 1.96 * se)
 
 
-
-
-##Individual performance
-d_ind_jnd_hz <- d_reversals %>%
-    mutate(cond = ifelse(cond == "No-standard", "No-Standard", "Standard"))%>%
-    group_by(PartID, cond, group, age) %>%
-    dplyr::summarize(jnd = mean(freqDiff, na.rm = T))
+# ##Individual performance
+# d_ind_jnd_hz <- d_reversals %>%
+#     mutate(cond = ifelse(cond == "No-standard", "No-Standard", "Standard"))%>%
+#     group_by(PartID, cond, group, age) %>%
+#     dplyr::summarize(jnd = mean(freqDiff, na.rm = T))
 
 #in percent
 d_ind_jnd_hz <- d_reversals %>%
@@ -194,12 +192,13 @@ multi.two.group.unpaired <-
 multi.two.group.unpaired2 <- dabestr::mean_diff(multi.two.group.unpaired)
 
 plot(multi.two.group.unpaired2,
-     rawplot.ylabel = "JND (Percent Hz)",color.column = group_cond,
+     rawplot.ylabel = "JND % (Hz)",color.column = group_cond,
      palette = c("blue", "light blue","red","pink"),
      effsize.ylabel = "Unpaired mean difference")
 
 d_ind_jnd_hz$age<-as.factor(d_ind_jnd_hz$age)
 d_ind_jnd_hz$cond<-as.factor(d_ind_jnd_hz$cond)
+
 #Analyze effects
 jnd_model <- lmer(jnd ~ cond*group*age + (1|PartID), data = d_ind_jnd_hz,REML = TRUE)
 #rand(jnd_model) #test the random effect in the model
@@ -312,4 +311,4 @@ names(d_ntd)[names(d_ntd)=="m_fd_hz"] <- "ntd"
 names(d_jnd)[names(d_jnd)=="m_jnd"] <- "tone_thresh"
 
 tone_data<-merge(d_jnd,d_ntd)            
-write.csv(tone_data,"~/Dropbox (MIT)/GitHub/Tone_SelectAdapt_Paper/data/tone_jnd_ntd_122020.csv")
+write.csv(tone_data,"~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper/data/tone_jnd_ntd_062721.csv")
