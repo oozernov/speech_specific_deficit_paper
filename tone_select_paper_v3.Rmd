@@ -118,7 +118,7 @@ resa <- cor(na.omit(d_a3,method = "fisher"))
 length(d_a3$ntd)
 #create a table with r and p
 source("corstars_function.R")
-corstars(d_a3,method="pearson")#you need to run the function first
+corstars(d_a3,method="spearman")#you need to run the function first
 p.adjust(0.01, method = "holm", n = length(resa))
 
 #test for strengh of correlation
@@ -128,6 +128,8 @@ paired.r(-.40,.06,NULL,50) #independent correlations same sample size
 
 ```
 
+
+
 ###Adult: Correlations by group-TYP
 ```{r,echo=FALSE}
 dd<-d%>%filter(age=='Adult')%>%dplyr::filter(Subgroup=='DD')
@@ -136,7 +138,7 @@ dd<-na.omit(dd%>%ungroup() %>% dplyr::select(tone_thresh,ntd,m_slope,adaptor_dif
 
 typ<-d%>%filter(age=='Adult')%>%filter(Subgroup=='TYP')
 typ<-na.omit(typ%>%ungroup() %>% dplyr::select(tone_thresh,ntd,m_slope,adaptor_diff,PA))
-corstars(typ,method="pearson")#you need to run the function first
+corstars(typ,method="spearman")#you need to run the function first
 
 #correlation between ntd and adapt_diff
 typ2<-d_m%>%filter(age=='Adult')%>%filter(Subgroup.x=='TYP')
@@ -176,9 +178,10 @@ dd2$adap_res<-resid(d2)
 cor.test(dd2$ntd_res,dd2$ctopp_nonword_ss)
 
 #correlationa table
-corstars(dd,method="pearson")#you need to run the function first
+corstars(dd,method="spearman")#you need to run the function first
 plot(dd$adaptor_diff,dd$PA) #check for outliers...
 ```
+
 
 ### Adult: Mediation Analysis
 ```{r,echo=FALSE}
@@ -484,7 +487,7 @@ d_c3<-na.omit(d_c3)
 
 #you need to run the function first
 source("corstars_function.R")
-corstars(d_c3, method="pearson")
+corstars(d_c3, method="spearman")
 ```
 
 ###Child Correlation by Group
@@ -502,7 +505,26 @@ str(d_dd_c2)
 resa <- cor(na.omit(d_dd_c2,method = "pearson"))
 d_dd_c<-na.omit(d_dd_c2)
 #create a table with r and p
-corstars(d_dd_c2,method="pearson")#you need to run the function first
+corstars(d_dd_c2,method="spearman")#you need to run the function first
+
+```
+
+###Test correlation magnitude
+```{r, echo=FALSE}
+library(cocor)
+#Slope and JND (dys child)
+##tc
+cocor.indep.groups(-.35, -.10, 20, 30, alternative = "less", test = "all", alpha = 0.05)
+
+##da
+cocor.indep.groups(-.35,-.15, 18, 21, alternative = "less", test = "all", alpha = 0.05)
+##ta
+cocor.indep.groups(0.08, -.34, 30,22, alternative = "greater", test = "all", alpha = 0.05)
+
+#Slope and Adapt in Children, not adults
+cocor.indep.groups(.38, .19, 48,45, alternative = "greater", test = "all", alpha = 0.05)
+
+#JND and Slope in Children, not adults
 
 ```
 #### Plot NTD and PA in Child
@@ -532,7 +554,7 @@ ggplot(d_dd_c2, aes(x = ntd, y = PA)) +
 
 #try without outlier
 test<-d_dd_c2%>%filter(d_dd_c2$PA>6)
-corstars(test,method="pearson")#you need to run the function first
+corstars(test,method="spearman")#you need to run the function first
 ```
 
 #### Child Typ
@@ -543,7 +565,81 @@ d_t_c<-d_t_c%>%ungroup() %>% dplyr::select(tone_thresh,ntd,m_slope,adaptor_diff,
 resct <- cor(na.omit(d_t_c,method = "spearman"))
 d_t_c2<-na.omit(d_t_c)
 #create a table with r and p
-corstars(d_t_c2,method="pearson")#you need to run the function first
+corstars(d_t_c2,method="spearman")#you need to run the function first
+```
+
+### Try Bayesian Correlation 
+```{r,echo=FALSE}
+library(BayesFactor)
+library(bayestestR)
+
+#All Adults
+correlationBF(d_a3$tone_thresh, d_a3$ntd)
+correlationBF(d_a3$tone_thresh, d_a3$m_slope)
+correlationBF(d_a3$tone_thresh, d_a3$adaptor_diff)
+correlationBF(d_a3$tone_thresh, d_a3$PA)
+
+correlationBF(d_a3$ntd, d_a3$m_slope)
+correlationBF(d_a3$ntd, d_a3$adaptor_diff)
+correlationBF(d_a3$ntd, d_a3$PA)
+
+correlationBF(d_a3$m_slope, d_a3$adaptor_diff)
+correlationBF(d_a3$m_slope, d_a3$PA)
+
+correlationBF(d_a3$adaptor_diff, d_a3$PA)
+
+
+#All Children
+correlationBF(d_c3$tone_thresh, d_c3$ntd)
+correlationBF(d_c3$tone_thresh, d_c3$m_slope)
+correlationBF(d_c3$tone_thresh, d_c3$adaptor_diff)
+correlationBF(d_c3$tone_thresh, d_c3$PA)
+
+correlationBF(d_c3$ntd, d_c3$m_slope)
+correlationBF(d_c3$ntd, d_c3$adaptor_diff)
+correlationBF(d_c3$ntd, d_c3$PA)
+
+correlationBF(d_c3$m_slope, d_c3$adaptor_diff)
+correlationBF(d_c3$m_slope, d_c3$PA)
+
+correlationBF(d_c3$adaptor_diff, d_c3$PA)
+
+#Typ Adults
+
+correlationBF(typ$tone_thresh, typ$ntd)
+correlationBF(typ$tone_thresh, typ$m_slope)
+correlationBF(typ$tone_thresh, typ$adaptor_diff)
+correlationBF(typ$tone_thresh, typ$PA)
+
+correlationBF(typ$ntd, typ$m_slope)
+correlationBF(typ$ntd, typ$adaptor_diff)
+correlationBF(typ$ntd, typ$PA)
+
+correlationBF(typ$m_slope, typ$adaptor_diff)
+correlationBF(typ$m_slope, typ$PA)
+
+correlationBF(typ$adaptor_diff, typ$PA)
+#Dys Adults
+
+correlationBF(typ$tone_thresh, typ$ntd)
+correlationBF(typ$tone_thresh, typ$m_slope)
+correlationBF(typ$tone_thresh, typ$adaptor_diff)
+correlationBF(typ$tone_thresh, typ$PA)
+
+correlationBF(typ$ntd, typ$m_slope)
+correlationBF(typ$ntd, typ$adaptor_diff)
+correlationBF(typ$ntd, typ$PA)
+
+correlationBF(typ$m_slope, typ$adaptor_diff)
+correlationBF(typ$m_slope, typ$PA)
+
+correlationBF(typ$adaptor_diff, typ$PA)
+
+#Typ Children
+
+#Dys Children
+
+
 ```
 
 ## Child: Mediation Analysis
