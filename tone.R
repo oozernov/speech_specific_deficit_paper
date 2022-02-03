@@ -311,4 +311,4 @@ names(d_ntd)[names(d_ntd)=="m_fd_hz"] <- "ntd"
 names(d_jnd)[names(d_jnd)=="m_jnd"] <- "tone_thresh"
 
 tone_data<-merge(d_jnd,d_ntd)            
-write.csv(tone_data,"~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper/data/tone_jnd_ntd_062721.csv")
+write.csv(tone_data,"~/Dropbox (MIT)/GitHub/speech_specific_deficit_paper/data/tone_jnd_ntd_10721.csv")

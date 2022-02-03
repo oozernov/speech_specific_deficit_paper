@@ -31,7 +31,7 @@ d=read.csv("data/abcd_beh_122020.csv")
 groups=read.csv("data/abcd_group.csv")
 snr=read.csv("data/SNR.csv")
 music=read.csv("data/ABCD_music_data.csv")
-tone=read.csv("data/tone_jnd_ntd_062721.csv")
+tone=read.csv("data/tone_jnd_ntd_10721.csv")
 sa=read.csv("data/dys_comp_selec_adapt_122020.csv")
 tone_sa=merge(tone,sa)
 #accuracy<-read.csv("sa_accuracy.csv")
@@ -94,7 +94,11 @@ t.test(d_group$tot_music~d_group$Subgroup.x)
 tbl = table(d_group$music_y_n,d_group$Subgroup.x)
 tbl
 chisq.test(tbl)
-anova(lm(tone_thresh~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
+m1<-lm(tone_thresh~music_y_n+Subgroup.x, data=d_group)#group differences sig after PA and 
+anova(m1)
+SNR partialed out
+eta_sq(m1)
+
 anova(lm(m_slope~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
 #anova(lm(diff_8~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
 anova(lm(ntd~music_y_n+Subgroup.x, data=d_group)) #group differences sig after PA and SNR partialed out
